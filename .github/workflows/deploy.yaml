@@ -19,14 +19,6 @@ jobs:
         with:
           python-version: '3.9'
 
-      - name: Set up AWS CLI for dev
-        if:  github.ref == 'refs/heads/dev'
-        uses: aws-actions/configure-aws-credentials@v1
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID_DEV }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY_DEV }}
-          aws-region: us-east-1 
-
       - name: Configure AWS Credentials
         run: |
             aws configure set aws_access_key_id ${{ secrets.AWS_ACCESS_KEY_ID_DEV }}
@@ -51,23 +43,15 @@ jobs:
       uses: actions/setup-python@v2
       with:
         python-version: '3.9'
-
-    - name: Set up AWS CLI for Production
-      if: github.ref == 'refs/heads/main'  # Change this condition to match your branch naming convention for production
-      uses: aws-actions/configure-aws-credentials@v1
-      with:
-        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID_PROD }}
-        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY_PROD}}
-        aws-region: us-east-1 
           
-    # - name: Configure AWS Credentials
-    #   run: |
-    #     aws configure set aws_access_key_id ${{ secrets.AWS_ACCESS_KEY_ID_PROD }}
-    #     aws configure set aws_secret_access_key ${{ secrets.AWS_SECRET_ACCESS_KEY_PROD}}
-    #     aws configure set region us-east-1
+    - name: Configure AWS Credentials
+      run: |
+        aws configure set aws_access_key_id ${{ secrets.AWS_ACCESS_KEY_ID_PROD }}
+        aws configure set aws_secret_access_key ${{ secrets.AWS_SECRET_ACCESS_KEY_PROD }}
+        aws configure set region us-east-1
 
     - name: Deploy to Prod
       run: |
-        sam build --template ./lambda_sam_prod.yaml --manifest ./requirements.txt  --region us-east-1
-        sam package --template-file .aws-sam/build/template.yaml --s3-bucket demo-test-2119-prod --output-template-file packaged.yaml --region us-east-1
-        sam deploy --template-file packaged.yaml --stack-name my-lambda-app-prod --s3-bucket demo-test-2119-prod --capabilities CAPABILITY_IAM --region us-east-1
+        sam build --template ./prod/lambda_sam_prod.yaml --manifest ./prod/requirements.txt
+        sam package --template-file .aws-sam/build/template.yaml --s3-bucket demo-test-2119-prod --output-template-file packaged.yaml
+        sam deploy --template-file packaged.yaml --stack-name my-lambda-app-prod --s3-bucket demo-test-2119-prod --capabilities CAPABILITY_IAM
