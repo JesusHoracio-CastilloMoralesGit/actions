@@ -1,17 +1,17 @@
-# AWSTemplateFormatVersion: '2010-09-09'
-# Transform: 'AWS::Serverless-2016-10-31'
-# Description: Test Pipeline Lambda
-# Globals:
-#   Function:
-#     Environment:
-#       Variables:
-#         DEV_API_KEY: ${{ secrets.DEV_API_KEY }}
-#         PROD_API_KEY: ${{ secrets.PROD_API_KEY }}
-# Resources:
-#   hellofunctionprod:
-#     Type: 'AWS::Serverless::Function'
-#     Properties:
-#       Handler: hello_country.lambda_handler
-#       Runtime: python3.9
-#       CodeUri: ./prod/lambda_sam_prod.yaml
-#       Description: Sample SAM Lambda Deployment
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: 'AWS::Serverless-2016-10-31'
+Description: Test Pipeline Lambda
+Globals:
+  Function:
+    Environment:
+      Variables:
+        DEV_API_KEY: ${{ secrets.DEV_API_KEY }}
+        PROD_API_KEY: ${{ secrets.PROD_API_KEY }}
+Resources:
+  hellofunctionprod:
+    Type: 'AWS::Serverless::Function'
+    Properties:
+      Handler: hello_country.lambda_handler
+      Runtime: python3.9
+      CodeUri: ./prod/lambda_sam_prod.yaml
+      Description: Sample SAM Lambda Deployment

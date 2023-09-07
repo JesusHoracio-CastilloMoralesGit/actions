@@ -25,34 +25,33 @@ jobs:
             aws configure set aws_secret_access_key ${{ secrets.AWS_SECRET_ACCESS_KEY_DEV}}
             aws configure set region us-east-1
 
-      # - name: Set up AWS credentials
-      #   uses: aws-actions/configure-aws-credentials@v2
-      #   with:
-      #     aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID_DEV }}
-      #     aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY_DEV }}
-      #     aws-region: us-east-1 # Change to your desired region
-
       - name: Deploy to Dev
         run: |
           sam build --template ./dev/lambda_sam_dev.yaml --manifest ./dev/requirements.txt
           sam package --template-file .aws-sam/build/template.yaml --s3-bucket demo-test-2119 --output-template-file packaged.yaml
           sam deploy --template-file packaged.yaml --stack-name my-lambda-app-dev --s3-bucket demo-test-2119 --capabilities CAPABILITY_IAM
 
-  # deploy-prod:
-  #   runs-on: ubuntu-latest
+# jobs:
+  deploy-prod:
+    runs-on: ubuntu-latest
+          
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+          
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.9'
+          
+    - name: Configure AWS Credentials
+      run: |
+        aws configure set aws_access_key_id ${{ secrets.AWS_ACCESS_KEY_ID_DEV }}
+        aws configure set aws_secret_access_key ${{ secrets.AWS_SECRET_ACCESS_KEY_DEV}}
+        aws configure set region us-east-1
 
-  #   steps:
-  #     - name: Checkout code
-  #       uses: actions/checkout@v2
-
-  #     - name: Set up AWS credentials
-  #       uses: aws-actions/configure-aws-credentials@v2
-  #       with:
-  #         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID_PROD }}
-  #         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY_PROD }}
-  #         aws-region: us-east-1 # Change to your desired region
-
-  #     - name: Deploy to Prod
-  #       run: |
-  #         # sam package --template-file ./prod/lambda_sam_prod.yaml --s3-bucket demo-test-2119-prod --output-template-file packaged-lambda.yaml
-  #         sam deploy --template-file ./packaged-lambda.yaml --stack-name my-lambda-app-prod --capabilities CAPABILITY_IAM
+    - name: Deploy to Prod
+      run: |
+        sam build --template ./prod/lambda_sam_dev.yaml --manifest ./prod/requirements.txt
+        sam package --template-file .aws-sam/build/template.yaml --s3-bucket demo-test-2119 --output-template-file packaged.yaml
+        sam deploy --template-file packaged.yaml --stack-name my-lambda-app-dev --s3-bucket demo-test-2119-prod --capabilities CAPABILITY_IAM
