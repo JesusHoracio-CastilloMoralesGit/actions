@@ -1,12 +1,12 @@
 AWSTemplateFormatVersion: '2010-09-09'
 Transform: 'AWS::Serverless-2016-10-31'
 Description: Test Pipeline Lambda
-Globals:
-  Function:
-    Environment:
-      Variables:
-        DEV_API_KEY: ${{ secrets.DEV_API_KEY }}
-        PROD_API_KEY: ${{ secrets.PROD_API_KEY }}
+# Globals:
+#   Function:
+#     Environment:
+#       Variables:
+#         DEV_API_KEY: ${{ secrets.DEV_API_KEY }}
+#         PROD_API_KEY: ${{ secrets.PROD_API_KEY }}
 Resources:
   hellofunctiondev:
     Type: 'AWS::Serverless::Function'
