@@ -30,7 +30,7 @@ jobs:
             sam package \
               --template-file ./dev/lambda_sam_dev.yaml \
               --output-template-file packaged.yaml \
-              --s3-bucket demo-test-2119
+              --s3-bucket s3://demo-test-2119
               --region us-east-1
               --profile admin-general
         if: success()
