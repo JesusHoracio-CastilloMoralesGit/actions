@@ -1,0 +1,47 @@
+name: Deploy Lambda Functions
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy-dev:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up AWS credentials
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID_DEV }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY_DEV }}
+          aws-region: us-east-1 # Change to your desired region
+
+      - name: Deploy to Dev
+        run: |
+          cd dev
+          sam build
+          sam deploy --stack-name my-lambda-app-dev --s3-bucket my-sam-bucket --capabilities CAPABILITY_IAM
+
+  deploy-prod:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up AWS credentials
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID_PROD }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY_PROD }}
+          aws-region: us-east-1 # Change to your desired region
+
+      - name: Deploy to Prod
+        run: |
+          cd prod
+          sam build
+          sam deploy --stack-name my-lambda-app-prod --s3-bucket my-sam-bucket --capabilities CAPABILITY_IAM
