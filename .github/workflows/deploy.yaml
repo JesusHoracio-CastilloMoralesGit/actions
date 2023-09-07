@@ -22,7 +22,7 @@ jobs:
 
       - name: Deploy to Dev
         run: |
-          sam package --template-file ./dev/lambda_sam_dev.yaml --s3-bucket demo-test-2119-prod --output-template-file packaged-lambda.yaml
+          sam package --template-file ./dev/lambda_sam_dev.yaml --s3-bucket demo-test-2119-prod --output-template-file packaged-lambda.yaml --profile default
           sam deploy --template-file ./dev/packaged-lambda.yaml --stack-name my-lambda-app-dev --s3-bucket demo-test-2119 --capabilities CAPABILITY_IAM
 
   deploy-prod:
@@ -41,6 +41,6 @@ jobs:
 
       - name: Deploy to Prod
         run: |
-          cd prod
-          sam package --template-file ./prod/lambda_sam_prod.yaml --s3-bucket demo-test-2119-prod --output-template-file packaged-lambda.yaml
+
+          # sam package --template-file ./prod/lambda_sam_prod.yaml --s3-bucket demo-test-2119-prod --output-template-file packaged-lambda.yaml
           sam deploy --template-file ./prod/packaged-lambda.yaml --stack-name my-lambda-app-prod --capabilities CAPABILITY_IAM
