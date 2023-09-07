@@ -24,13 +24,6 @@ jobs:
             aws configure set aws_secret_access_key ${{ secrets.AWS_SECRET_ACCESS_KEY_DEV}}
             aws configure set region us-east-1
 
-      # - name: Set up AWS credentials
-      #   uses: aws-actions/configure-aws-credentials@v2
-      #   with:
-      #     aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID_DEV }}
-      #     aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY_DEV }}
-      #     aws-region: us-east-1 # Change to your desired region
-
       - name: Deploy to Dev
         run: |
           sam package --template-file ./dev/lambda_sam_dev.yaml --s3-bucket demo-test-2119 --output-template-file packaged.yaml
