@@ -33,6 +33,13 @@ jobs:
               --output-template-file packaged.yaml \
               --region us-east-1
               --profile admin-general
+
+      - name: Upload Packaged Template
+        uses: actions/upload-artifact@v2
+        with:
+            name: packaged-template
+            path: packaged-template.yaml
+            
         if: success()
   
       - name: Deploy SAM Application
