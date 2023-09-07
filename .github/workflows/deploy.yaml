@@ -14,7 +14,7 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Set up AWS credentials
-        uses: aws-actions/configure-aws-credentials@v1
+        uses: aws-actions/configure-aws-credentials@v2
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID_DEV }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY_DEV }}
@@ -33,7 +33,7 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Set up AWS credentials
-        uses: aws-actions/configure-aws-credentials@v1
+        uses: aws-actions/configure-aws-credentials@v2
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID_PROD }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY_PROD }}
@@ -41,6 +41,5 @@ jobs:
 
       - name: Deploy to Prod
         run: |
-
           # sam package --template-file ./prod/lambda_sam_prod.yaml --s3-bucket demo-test-2119-prod --output-template-file packaged-lambda.yaml
-          sam deploy --template-file ./prod/packaged-lambda.yaml --stack-name my-lambda-app-prod --capabilities CAPABILITY_IAM
+          sam deploy --template-file ./packaged-lambda.yaml --stack-name my-lambda-app-prod --capabilities CAPABILITY_IAM
