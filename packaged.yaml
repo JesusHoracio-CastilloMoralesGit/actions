@@ -1,0 +1,13 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: Test Pipeline Lambda
+Resources:
+  hellofunctiondev:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: hello_country.lambda_handler
+      Runtime: python3.9
+      CodeUri: s3://demo-test-2119/89d622784087255fe9eca575b7a4b523
+      Description: Sample SAM Lambda Deployment
+    Metadata:
+      SamResourceId: hellofunctiondev

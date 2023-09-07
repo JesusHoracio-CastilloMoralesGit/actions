@@ -25,20 +25,20 @@ jobs:
             aws configure set region your-aws-region
         if: success()
   
-      - name: Package SAM Application
-        run: |
-            sam package \
-              --template-file ./dev/lambda_sam_dev.yaml \
-              --s3-bucket demo-test-2119
-              --output-template-file packaged.yaml \
+      # - name: Package SAM Application
+      #   run: |
+      #       sam package \
+      #         --template-file ./dev/lambda_sam_dev.yaml \
+      #         --s3-bucket demo-test-2119
+      #         --output-template-file packaged.yaml \
 
-        if: success()
+      #   if: success()
   
       - name: Deploy SAM Application
         run: |
             sam deploy \
               --template-file packaged.yaml \
-              --stack-name your-stack-name \
+              --stack-name pythonapp \
               --capabilities CAPABILITY_IAM
         if: success()
 
