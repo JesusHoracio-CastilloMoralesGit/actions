@@ -33,7 +33,7 @@ jobs:
 
       - name: Deploy to Dev
         run: |
-          sam deploy --template-file packaged-lambda.yaml --stack-name my-lambda-app-dev --s3-bucket demo-test-2119 --capabilities CAPABILITY_IAM
+          sam deploy --template-file packaged.yaml --stack-name my-lambda-app-dev --s3-bucket demo-test-2119 --capabilities CAPABILITY_IAM
 
   # deploy-prod:
   #   runs-on: ubuntu-latest
