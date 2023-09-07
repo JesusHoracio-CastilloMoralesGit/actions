@@ -29,8 +29,8 @@ jobs:
         run: |
             sam package \
               --template-file ./dev/lambda_sam_dev.yaml \
+              --s3-bucket demo-test-2119
               --output-template-file packaged.yaml \
-              --aws s3 sync packaged.yaml s3://demo-test-2119
               --region us-east-1
               --profile admin-general
         if: success()
