@@ -31,7 +31,8 @@ jobs:
           ENV: dev
         run: |
           cd $DEV
-          sam build
+          sam build  --template ./dev/lambda_sam_dev.yaml --manifest ./dev/requirements.txt
+          sam package --template-file .aws-sam/build/template.yaml --s3-bucket demo-test-2119 --output-template-file packaged.yaml
           sam deploy --template-file packaged.yaml --stack-name my-lambda-app-dev --s3-bucket demo-test-2119 --capabilities CAPABILITY_IAM
 
   deploy-prod:
@@ -55,5 +56,6 @@ jobs:
           ENV: prod
         run: |
           cd $PROD
-          sam build --template lambda_sam_dev.yaml --manifest requirements.txt
+          sam build --template ./prod/lambda_sam_dev.yaml --manifest ./prod/requirements.txt
+          sam package --template-file .aws-sam/build/template.yaml  --s3-bucket demo-test-2119-prod --output-template-file packaged.yaml
           sam deploy --template-file packaged.yaml --stack-name my-lambda-app-prod --s3-bucket demo-test-2119-prod --capabilities CAPABILITY_IAM
