@@ -31,7 +31,7 @@ jobs:
           ENV: dev
         run: |
           cd $DEV
-          sam build --template lambda_sam_dev.yaml --manifest requirements.txt
+          sam build
           sam deploy --template-file packaged.yaml --stack-name my-lambda-app-dev --s3-bucket demo-test-2119 --capabilities CAPABILITY_IAM
 
   deploy-prod:
