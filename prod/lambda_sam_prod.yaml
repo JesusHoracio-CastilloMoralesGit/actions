@@ -7,5 +7,5 @@ Resources:
     Properties:
       Handler: hello_country.lambda_handler
       Runtime: python3.9
-      CodeUri: ./prod/lambda_sam_prod.yaml
+      CodeUri: ./prod
       Description: Sample SAM Lambda Deployment
